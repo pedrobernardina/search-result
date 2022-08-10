@@ -158,6 +158,10 @@
     "component": "FilterNavigatorFlexible",
     "allowed": ["sidebar-close-button"]
   },
+  "filter-navigator.v3.horizontal": {
+    "component": "FilterNavigatorHorizontal",
+    "allowed": ["sidebar-close-button"]
+  },
   "total-products.v2": {
     "component": "TotalProductsFlexible",
     "content": {

@@ -7,7 +7,7 @@ import FilterNavigatorContext from './components/FilterNavigatorContext'
 import styles from './searchResult.css'
 import { sortFilterValues } from './utils/sortFilterValues'
 
-const withSearchPageContextProps = (Component) => ({
+export const withSearchPageContextProps = (Component) => ({
   layout,
   initiallyCollapsed,
   scrollToTop,
@@ -28,6 +28,7 @@ const withSearchPageContextProps = (Component) => ({
   showClearAllFiltersOnDesktop,
   priceRangeLayout,
   facetOrdering = [],
+  OrderBy,
 }) => {
   const {
     searchQuery,
@@ -108,6 +109,7 @@ const withSearchPageContextProps = (Component) => ({
           showClearAllFiltersOnDesktop={showClearAllFiltersOnDesktop}
           priceRangeLayout={priceRangeLayout}
           drawerDirectionMobile={drawerDirectionMobile}
+          OrderBy={OrderBy}
         />
       </FilterNavigatorContext.Provider>
     </div>
