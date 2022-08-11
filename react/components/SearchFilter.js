@@ -27,6 +27,7 @@ const SearchFilter = ({
   closeOnOutsideClick,
   appliedFiltersOverview,
   showClearByFilter,
+  horizontal = false,
 }) => {
   const intl = useIntl()
   const sampleFacet = facets && facets.length > 0 ? facets[0] : null
@@ -51,6 +52,7 @@ const SearchFilter = ({
       navigateToFacet={navigateToFacet}
       showClearByFilter={showClearByFilter}
       preventRouteChange={preventRouteChange}
+      horizontal={horizontal}
     >
       {(facet) => (
         <FacetItem
@@ -93,6 +95,8 @@ SearchFilter.propTypes = {
   /** Whether an overview of the applied filters should be displayed (`"show"`) or not (`"hide"`). */
   appliedFiltersOverview: PropTypes.string,
   showClearByFilter: PropTypes.bool,
+  /** If filter is being displayed in horizontal mode */
+  horizontal: PropTypes.bool,
 }
 
 export default SearchFilter

@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-restricted-imports
+import { flatten } from 'ramda'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useMemo, Fragment, useState, useEffect } from 'react'
@@ -6,12 +8,10 @@ import { ExtensionPoint } from 'vtex.render-runtime'
 import { useDevice } from 'vtex.device-detector'
 import { useCssHandles, applyModifiers } from 'vtex.css-handles'
 import { useSearchPage } from 'vtex.search-page-context/SearchPageContext'
-import { withSearchPageContextProps } from './FilterNavigatorFlexible';
-// eslint-disable-next-line no-restricted-imports
-import { flatten } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Button } from 'vtex.styleguide'
 
+import { withSearchPageContextProps } from './FilterNavigatorFlexible'
 import FilterSidebar from './components/FilterSidebar'
 import SelectedFilters from './components/SelectedFilters'
 import AvailableFilters from './components/AvailableFilters'
@@ -27,8 +27,6 @@ import styles from './searchResult.css'
 import { CATEGORIES_TITLE } from './utils/getFilters'
 import { newFacetPathName } from './utils/slug'
 import { FACETS_RENDER_THRESHOLD } from './constants/filterConstants'
-import OrderBy from './OrderBy'
-import OrderByFlexible from './OrderByFlexible'
 
 const CSS_HANDLES = [
   'filter__container',
@@ -253,12 +251,18 @@ const HorizontalFilterNavigator = ({
         </div>
       ) : (
         <Fragment>
-          <div className={`${filterClasses} ${applyModifiers(handles.filtersWrapper, 'horizontal')} flex`}>
+          <div
+            className={`
+            ${filterClasses} 
+            ${applyModifiers(handles.filtersWrapper, 'horizontal')} 
+            flex relative z-1
+            `}
+          >
             <div
-              className={`${applyModifiers(
-                handles.filter__container,
-                ['title', 'horizontal']
-              )} bb b--muted-4`}
+              className={`${applyModifiers(handles.filter__container, [
+                'title',
+                'horizontal',
+              ])} bb b--muted-4`}
             >
               <FilterNavigatorTitleTag
                 filtersTitleHtmlTag={filtersTitleHtmlTag}
@@ -275,6 +279,7 @@ const HorizontalFilterNavigator = ({
               categoryFiltersMode={categoryFiltersMode}
             />
             <AvailableFilters
+              horizontal
               filters={filters}
               priceRange={priceRange}
               preventRouteChange={preventRouteChange}
@@ -291,7 +296,8 @@ const HorizontalFilterNavigator = ({
               scrollToTop={scrollToTop}
             />
             {Boolean(OrderBy) && (
-              <div className={`${applyModifiers(
+              <div
+                className={`${applyModifiers(
                   handles.filtersOrderByWrapper,
                   'horizontal'
                 )}`}
@@ -301,10 +307,10 @@ const HorizontalFilterNavigator = ({
             )}
             {showClearAllFiltersOnDesktop && hasFiltersApplied && (
               <div
-                className={`${applyModifiers(
-                  handles.filter__container,
-                  ['clearAllFilters', 'horizontal']
-                )} bb b--muted-4`}
+                className={`${applyModifiers(handles.filter__container, [
+                  'clearAllFilters',
+                  'horizontal',
+                ])} bb b--muted-4`}
               >
                 <Button onClick={handleResetFilters}>
                   <FormattedMessage id="store/search-result.filter-button.clearAll" />
@@ -314,10 +320,12 @@ const HorizontalFilterNavigator = ({
           </div>
           <ExtensionPoint id="shop-review-summary" />
 
-          <div className={`
+          <div
+            className={`
             ${applyModifiers(handles.selectedFiltersWrapper, 'horizontal')}
-            mt5
-          `} >
+            mt5 relative z-0
+          `}
+          >
             <SelectedFilters
               filters={selectedFilters}
               preventRouteChange={preventRouteChange}

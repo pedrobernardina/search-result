@@ -88,6 +88,7 @@ const FilterOptionTemplate = ({
   navigateToFacet,
   showClearByFilter,
   preventRouteChange,
+  horizontal = false,
 }) => {
   const [open, setOpen] = useState(!initiallyCollapsed)
   const { getSettings } = useRuntime()
@@ -288,6 +289,8 @@ const FilterOptionTemplate = ({
         className={classNames(handles.filterTemplateOverflow, {
           'overflow-y-auto': collapsable,
           pb5: !collapsable || isOpen,
+          absolute: horizontal,
+          'bg-white': horizontal,
         })}
         ref={scrollable}
         data-testid="scrollable-element"
@@ -357,6 +360,8 @@ FilterOptionTemplate.propTypes = {
   navigateToFacet: PropTypes.func,
   showClearByFilter: PropTypes.bool,
   preventRouteChange: PropTypes.bool,
+  /** If filter is being displayed in horizontal mode */
+  horizontal: PropTypes.bool,
 }
 
 export default FilterOptionTemplate

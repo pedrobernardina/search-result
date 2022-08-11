@@ -39,6 +39,7 @@ const Filter = ({
   showClearByFilter,
   priceRangeLayout,
   scrollToTop,
+  horizontal = false,
 }) => {
   const { type, title, facets, quantity, oneSelectedCollapse = false } = filter
 
@@ -77,6 +78,7 @@ const Filter = ({
           closeOnOutsideClick={closeOnOutsideClick}
           appliedFiltersOverview={appliedFiltersOverview}
           showClearByFilter={showClearByFilter}
+          horizontal={horizontal}
         />
       )
   }
@@ -99,6 +101,8 @@ AvailableFilters.propTypes = {
   initiallyCollapsed: PropTypes.bool,
   /** If filters start truncated */
   truncateFilters: PropTypes.bool,
+  /** If filter is being displayed in horizontal mode */
+  horizontal: PropTypes.bool,
 }
 
 export default AvailableFilters
