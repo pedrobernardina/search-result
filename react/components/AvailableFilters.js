@@ -54,6 +54,25 @@ const Filter = ({
           preventRouteChange={preventRouteChange}
           priceRangeLayout={priceRangeLayout}
           scrollToTop={scrollToTop}
+          filterTemplateProps={{
+            collapsable: !!horizontal,
+            filters: facets,
+            quantity,
+            initiallyCollapsed,
+            lazyRender,
+            truncateFilters,
+            lastOpenFilter,
+            setLastOpenFilter,
+            openFiltersMode,
+            truncatedFacetsFetched,
+            setTruncatedFacetsFetched,
+            closeOnOutsideClick,
+            appliedFiltersOverview,
+            navigateToFacet,
+            showClearByFilter,
+            preventRouteChange,
+            horizontal,
+          }}
         />
       )
 

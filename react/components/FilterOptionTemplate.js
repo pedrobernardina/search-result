@@ -184,6 +184,7 @@ const FilterOptionTemplate = ({
     } else if (openFiltersMode === 'one') {
       setLastOpenFilter(lastOpenFilter === title ? null : title)
     } else {
+      /* eslint-disable-next-line no-console */
       console.error(
         `Invalid openFiltersMode value: ${openFiltersMode}\nCheck the documentation for the values available`
       )

@@ -25,7 +25,8 @@ const PriceRange = ({
   priceRangeLayout,
   scrollToTop,
   clearPriceRange,
-  setClearPriceRange
+  setClearPriceRange,
+  filterTemplateProps = {},
 }) => {
   const [range, setRange] = useState()
   const { culture, setQuery, query: runtimeQuery } = useRuntime()
@@ -38,8 +39,18 @@ const PriceRange = ({
 
   const { fuzzy, operator, searchState } = useSearchState()
 
-  const handleChange = ([left, right]) => {
+  let minValue = Number.MAX_VALUE
+  let maxValue = Number.MIN_VALUE
 
+  const resetOnClear = () => {
+    setQuery({
+      priceRange: `${minValue} TO ${maxValue}`,
+    })
+    setRange([minValue, maxValue])
+    setClearPriceRange(false)
+  }
+
+  const handleChange = ([left, right]) => {
     if (navigateTimeoutId.current) {
       clearTimeout(navigateTimeoutId.current)
     }
@@ -68,25 +79,27 @@ const PriceRange = ({
       })
 
       setRange([left, right])
-      
-      if(scrollToTop !== 'none'){
+
+      if (scrollToTop !== 'none') {
         window.scroll({ top: 0, left: 0, behavior: scrollToTop })
       }
-      
     }, DEBOUNCE_TIME)
   }
 
+  useEffect(() => {
+    clearPriceRange && resetOnClear()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [clearPriceRange])
+
   const slugRegex = /^de-(.*)-a-(.*)$/
-  const availableOptions = facets.filter(({ slug }) => slugRegex.test(slug))
+  const availableOptions =
+    facets.filter(({ slug }) => slugRegex.test(slug)) ?? []
 
   if (!availableOptions.length) {
     return null
   }
 
-  let minValue = Number.MAX_VALUE
-  let maxValue = Number.MIN_VALUE
-
-  availableOptions.forEach(({ slug }) => {
+  availableOptions?.forEach(({ slug }) => {
     const [, minSlug, maxSlug] = slug.match(slugRegex)
 
     const min = parseInt(minSlug, 10)
@@ -111,23 +124,12 @@ const PriceRange = ({
     defaultValues[1] = parseInt(currentMax, 10)
   }
 
-  const resetOnClear = () => {
-    setQuery({
-      priceRange: `${minValue} TO ${maxValue}`
-    })
-    setRange([minValue, maxValue])
-    setClearPriceRange(false)
-  } 
-
-  useEffect(() => {
-    clearPriceRange && resetOnClear()
-  }, [clearPriceRange])
-
   return (
     <FilterOptionTemplate
       id="priceRange"
       title={getFilterTitle(title, intl)}
       collapsable={false}
+      {...filterTemplateProps}
     >
       {priceRangeLayout === 'inputAndSlider' && (
         <PriceRangeInput
@@ -164,6 +166,8 @@ PriceRange.propTypes = {
   clearPriceRange: PropTypes.bool,
   /** Set the value of clearPriceRange prop */
   setClearPriceRange: PropTypes.func,
+  filterTemplateProps: PropTypes.object,
+  scrollToTop: PropTypes.string,
 }
 
 export default PriceRange
